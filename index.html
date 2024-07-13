@@ -2,17 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HW-12</title>
+
     
+    <title>HW-12</title>
     <script type="module" crossorigin src="/goit-js-hw-12/commonHelpers.js"></script>
-    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-b20c67ea.js">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-ee72e1a4.js">
     <link rel="stylesheet" href="/goit-js-hw-12/assets/vendor-1cd1f9d9.css">
-    <link rel="stylesheet" href="/goit-js-hw-12/assets/index-0b16fe67.css">
+    <link rel="stylesheet" href="/goit-js-hw-12/assets/index-9374d76c.css">
   </head>
   <body>
-    <h1>hello hw-12</h1>
+    <form class="search-form">
+      <input
+        type="text"
+        class="input"
+        name="query"
+        placeholder="Search images..."
+      />
+      <button type="submit" class="btn">Search</button>
+    </form>
+
+    <div class="card-container"></div>
+    <button type="button" class="btn-load-more button" data-action="load-more">
+      Load more
+    </button>
+    <span class="loader spinner"></span>
     
   </body>
 </html>
