@@ -2,13 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HW-12</title>
+
     <link rel="stylesheet" href="./css/main.css" />
+    <title>HW-12</title>
   </head>
   <body>
-    <h1>hello hw-12</h1>
+    <form class="search-form">
+      <input
+        type="text"
+        class="input"
+        name="query"
+        placeholder="Search images..."
+      />
+      <button type="submit" class="btn">Search</button>
+    </form>
+
+    <div class="card-container"></div>
+    <button type="button" class="btn-load-more button" data-action="load-more">
+      Load more
+    </button>
+    <span class="loader spinner"></span>
     <script type="module" src="./main.js"></script>
   </body>
 </html>
