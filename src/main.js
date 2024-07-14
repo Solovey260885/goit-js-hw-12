@@ -11,14 +11,18 @@ import {
 import { renderImgCard, cardContainer } from './js/render-functions';
 
 const searchForm = document.querySelector('.search-form');
-const btn = document.querySelector('.btn');
 const btnLoadMore = document.querySelector('.btn-load-more');
+const spinner = document.querySelector('.loader');
 const hiddenClass = 'is-hidden';
 
 let queryValue = '';
 let totalPages = 0;
 
 searchForm.addEventListener('submit', handleSearch);
+
+export function showSpinner() {
+  spinner.style.display = 'flex';
+}
 
 function hide(button) {
   button.classList.add(hiddenClass);
@@ -36,7 +40,7 @@ function enable(button) {
   button.disabled = false;
 }
 
-hide(btnLoadMore); ///nide btn load more
+hide(btnLoadMore);
 
 async function handleSearch(event) {
   event.preventDefault();
@@ -45,7 +49,7 @@ async function handleSearch(event) {
   queryValue = form.elements.query.value.trim();
 
   if (queryValue === '') {
-    // перевірка на пустий інпут, та скидання форми
+    disable(btnLoadMore);
     iziToast.warning({
       title: 'Caution',
       message: 'Please, enter in the photo',
@@ -55,36 +59,23 @@ async function handleSearch(event) {
     return;
   }
 
-  show(btnLoadMore);
-  disable(btnLoadMore);
-
   try {
     let data = await getPicturesByQuery(queryValue);
     renderImgCard(data.hits);
+    show(btnLoadMore);
     totalPages = Math.ceil(data.total / pagination.perPage);
-    console.log('totalPages:', totalPages);
-    console.log('pagination.page', pagination.page);
 
     if (pagination.page > totalPages) {
+      hide(btnLoadMore);
       return iziToast.error({
         position: 'topRight',
-        message: "1We're sorry, there are no more posts to load",
+        message: "We're sorry, there are no more posts to load",
       });
     }
-
-    if (data.total === 0) {
-      iziToast.warning({
-        title: 'Caution',
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
-        position: 'topRight',
-      });
-    }
-    // hide(btn);
     enable(btnLoadMore);
+
     btnLoadMore.addEventListener('click', handleLoadMore);
   } catch (error) {
-    console.error(error);
     onFetchError();
   } finally {
     hideSpinner();
@@ -99,17 +90,29 @@ async function handleLoadMore() {
   try {
     let data = await getPicturesByQuery(queryValue);
     renderImgCard(data.hits);
+
+    const galleryItem = document.querySelector('.gallery-item');
+    const itemHeight = galleryItem.getBoundingClientRect().height;
+    window.scrollBy({
+      top: itemHeight * 2,
+      behavior: 'smooth',
+    });
   } catch (error) {
     console.error(error);
     onFetchError();
   } finally {
     enable(btnLoadMore);
-    hideSpinner();
 
-    // якщо поточна сторінка рівна максимальні сторінці, то наступних сторінок не існує
-    if (pagination.page === totalPages) {
+    if (pagination.page >= totalPages) {
       hide(btnLoadMore);
+
       btnLoadMore.removeEventListener('click', handleLoadMore);
+      iziToast.warning({
+        title: 'Caution',
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
     }
+    hideSpinner();
   }
 }

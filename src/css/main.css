@@ -87,15 +87,8 @@ li {
   display: none;
 }
 
-.btn.is-hidden {
-  display: none;
-}
-
-.spinner.is-hidden {
-  display: none;
-}
-
-.btn {
+.btn,
+.button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,8 +111,12 @@ li {
 
   cursor: pointer;
 }
+.button {
+  margin: 24px auto;
+}
 
-.btn:hover {
+.btn:hover,
+.button:hover {
   background: #6c8cff;
 }
 
