@@ -3,6 +3,20 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 export const cardContainer = document.querySelector('.card-container');
 
+let lightboxInstance;
+
+async function lightbox() {
+  if (!lightboxInstance) {
+    lightboxInstance = new SimpleLightbox('.card-container a', {
+      captionsData: 'alt',
+      captionPosition: 'bottom',
+      captionDelay: 250,
+    });
+  } else {
+    lightboxInstance.refresh();
+  }
+}
+
 export async function renderImgCard(dataArr) {
   const markupImages = dataArr
     .map(
@@ -30,11 +44,5 @@ export async function renderImgCard(dataArr) {
     .join('');
   cardContainer.insertAdjacentHTML('beforeend', markupImages);
 
-  const lightbox = new SimpleLightbox('.card-container a', {
-    captionsData: 'alt',
-    captionPosition: 'bottom',
-    captionDelay: 250,
-  });
-
-  lightbox.refresh();
+  await lightbox();
 }

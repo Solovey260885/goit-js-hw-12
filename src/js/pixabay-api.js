@@ -29,9 +29,15 @@ export async function getPicturesByQuery(query) {
 
   showSpinner();
 
-  return await axios
-    .get(`https://pixabay.com/api/?${params}`)
-    .then(response => response.data);
+  try {
+    const response = await axios.get(`https://pixabay.com/api/?${params}`);
+    return response.data;
+  } catch (error) {
+    onFetchError(error);
+    throw error;
+  } finally {
+    hideSpinner();
+  }
 }
 
 export function onFetchError(error) {

@@ -45,6 +45,7 @@ hide(btnLoadMore);
 async function handleSearch(event) {
   event.preventDefault();
   cardContainer.innerHTML = '';
+  pagination.page = 1;
   const form = event.currentTarget;
   queryValue = form.elements.query.value.trim();
 
